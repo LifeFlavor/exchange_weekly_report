@@ -2,8 +2,8 @@ name: Weekly Competitor Watch
 
 on:
   schedule:
-    - cron: '0 6 * * 3'  # 0 分, 6 點 (UTC), 每月每日, 每月, 週三 (3)
-  workflow_dispatch:      # 建議保留，方便你隨時手動觸發測試
+    - cron: '0 6 * * 3'  # 台灣時間週三下午 2:00
+  workflow_dispatch:      # 手動觸發按鈕
 
 jobs:
   run-script:
@@ -18,12 +18,14 @@ jobs:
           python-version: '3.9'
 
       - name: Install dependencies
-        run: pip install requests
-             pip install -U google-generativeai
+        # 注意：多行指令必須有「|」符號且縮排對齊
+        run: |
+          pip install requests
+          pip install -U google-generativeai
 
       - name: Run Monitoring Script
         env:
-          # 記得在 GitHub Repo 的 Settings > Secrets 裡設定這些變數
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        # ⚠️ 重點：請確認你的 Python 檔案名稱是否真的叫 competitor_monitor.py
         run: python competitor_monitor.py
