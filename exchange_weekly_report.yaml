@@ -19,6 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: pip install requests
+             pip install -U google-generativeai
 
       - name: Run Monitoring Script
         env:
