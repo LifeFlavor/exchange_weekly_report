@@ -25,4 +25,4 @@ jobs:
           # 記得在 GitHub Repo 的 Settings > Secrets 裡設定這些變數
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-        run: python your_script_name.py
+        run: python competitor_monitor.py
