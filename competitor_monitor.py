@@ -17,7 +17,7 @@ genai.configure(api_key=GEMINI_API_KEY)
 
 def get_exchange_updates():
     # 使用 1.5 Flash 模型（速度快且免費額度高）
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-1.5-flash-latest')
     
     prompt = """
     你是資深加密貨幣產品經理。請針對以下頭部交易所，檢索過去 7 天內（2026年3月底至4月初）的「產品功能更新」：
