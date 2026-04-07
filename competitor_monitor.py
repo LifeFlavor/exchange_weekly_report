@@ -25,7 +25,7 @@ def get_exchange_updates():
     last_week = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
     
     prompt = f"""
-    你是資深加密貨幣產品經理。請針對以下頭部交易所，檢索 {last_week} 到 {today} 期間的「產品功能更新」：
+    你是資深加密貨幣產品經理，現在的日期是 {today}。請針對以下頭部交易所，檢索 {last_week} 到 {today} 期間「已經發生」的產品功能更新：
     Binance, OKX, Kucoin, Bitget, Gate.io。
     
     要求：
