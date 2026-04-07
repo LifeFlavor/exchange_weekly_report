@@ -1,6 +1,5 @@
 import os
-import requests
-import google.generativeai as genai
+from google import genai
 from datetime import datetime, timedelta
 import smtplib
 from email.mime.text import MIMEText
@@ -14,15 +13,12 @@ EMAIL_SENDER = "behappywillyou@gmail.com"  # 你的發信 Gmail
 EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD") # GitHub Secrets 中的 16 位應用程式密碼
 EMAIL_RECEIVER = "jenny_lee@digifinex.org" # 接收報告的信箱
 
-# 強制配置：指定使用 v1 正式接口與 REST 傳輸，避開 v1beta 錯誤
-genai.configure(
-    api_key=GEMINI_API_KEY,
-    transport='rest'  # 保留這個，確保走網頁路徑避開 gRPC 錯誤
-)
+# 初始化新版 SDK client
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 def get_exchange_updates():
     """使用 Gemini 搜尋並生成競品分析表格"""
-    print("🚀 正在啟動 Gemini 聯網監測 (2026 正式版)...")
+    print("🚀 正在啟動 Gemini 聯網監測...")
     
     # 計算時間範圍
     today = datetime.now().strftime('%Y-%m-%d')
@@ -41,9 +37,10 @@ def get_exchange_updates():
     """
 
     try:
-        # 使用 2026 年最穩定的模型名稱
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model='gemini-2.0-flash',
+            contents=prompt
+        )
         
         if response and response.text:
             print("✅ 成功獲取 AI 分析數據！")
