@@ -1,5 +1,6 @@
 import os
 from google import genai
+from google.genai import types
 from datetime import datetime, timedelta
 import smtplib
 from email.mime.text import MIMEText
@@ -40,6 +41,9 @@ def get_exchange_updates():
         response = client.models.generate_content(
             model='gemini-2.5-flash',
             contents=prompt
+            config=types.GenerateContentConfig(
+                tools=[types.Tool(google_search=types.GoogleSearch())]
+            )
         )
         
         if response and response.text:
