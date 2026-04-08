@@ -33,7 +33,7 @@ def get_exchange_updates():
     1. 僅限「產品功能、App介面改版、新交易工具、系統優化、幣種管理/法幣網關更新」。
     2. 請直接以 HTML 表格格式輸出內容，表格標籤內請包含 border="1" 和 cellpadding="5"。
     3. 不要包含 ```html 標籤字眼，直接給 <table>...</table> 內容。
-    4. 欄位包含：交易所名稱、功能亮點、影響程度(High/Medium/Low)。不要在表格內附連結。
+    4. 欄位包含：交易所名稱、功能亮點、影響程度(High/Medium/Low)、來源（只寫來源網站名稱文字，例如「Binance 官方公告」、「CoinDesk」，不要放網址）。
     5. 使用繁體中文。
     6. 請務必根據實際搜尋結果填寫，若某交易所本週無重大更新請標註「本週無重大更新」。
     """
@@ -54,19 +54,23 @@ def get_exchange_updates():
             print("✅ 成功獲取 AI 分析數據！")
             report_text = response.text
 
-        # 從 grounding metadata 提取真實搜尋來源連結
+        # 從 grounding metadata 提取真實搜尋來源連結，列於底部供對照
         try:
             grounding = response.candidates[0].grounding_metadata
-            chunks = grounding.grounding_chunks  # 實際搜尋到的來源
+            chunks = grounding.grounding_chunks
 
             if chunks:
-                sources_html = "<h3 style='color:#2c3e50; margin-top:30px;'>📎 本報告參考來源</h3><ul>"
+                sources_html = """
+                <div style="margin-top:30px; padding:15px; background:#f8f9fa; border-left:4px solid #2c3e50;">
+                    <h3 style="color:#2c3e50; margin-top:0;">📎 參考來源連結（請對照上方表格來源欄）</h3>
+                    <ol>
+                """
                 for chunk in chunks:
                     if chunk.web and chunk.web.uri:
                         title = chunk.web.title or chunk.web.uri
                         uri = chunk.web.uri
                         sources_html += f'<li><a href="{uri}" target="_blank">{title}</a></li>'
-                sources_html += "</ul>"
+                sources_html += "</ol></div>"
                 print(f"✅ 成功提取 {len(chunks)} 筆來源連結")
         except Exception as e:
             print(f"⚠️ 來源連結提取失敗（不影響主報告）: {str(e)}")
