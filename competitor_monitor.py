@@ -15,7 +15,10 @@ EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")  # GitHub Secrets 中的 16 �
 
 # 更新收件人名單
 EMAIL_RECEIVERS = [
-    "jenny_lee@digifinex.org"
+    "jenny_lee@digifinex.org",
+    "vic_lu@digifinex.org",
+    "rhett_fang@digifinex.org",
+    "ron_ni@digifinex.org"
 ]
 
 # 初始化新版 SDK client
